@@ -1,6 +1,6 @@
 import { lots, lotsSummary } from '../data/lots'
 
-// A Home destaca só os primeiros da fila de prioridade; o resumo e o mapa usam todos.
+// A Home destaca só os primeiros da fila de prioridade; o resumo usa todos.
 const HOME_LOTS_LIMIT = 5
 
 export function useLots() {

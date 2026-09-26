@@ -31,7 +31,7 @@ export default function CurrentReadings({
   return (
     <section>
       <div className="mb-3 flex items-center justify-between gap-3">
-        <h2 className="text-lg font-semibold text-ink">Dados atuais</h2>
+        <h2 className="text-lg font-semibold text-ink">Condições do armazenamento</h2>
         <span className="rounded-full bg-primary-soft px-2.5 py-1 text-xs font-medium text-primary">
           Medidos pelo sensor
         </span>

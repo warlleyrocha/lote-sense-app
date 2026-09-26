@@ -180,13 +180,6 @@ export default function LotDetailPage() {
             <Icon className="size-5" name="history" />
             Ver histórico completo
           </Link>
-          <Link
-            className="flex items-center justify-center gap-2 rounded-inner border border-line bg-surface px-4 py-4 text-sm font-semibold text-primary"
-            to="/mapa"
-          >
-            <Icon className="size-5" name="location" />
-            Ver localização do lote
-          </Link>
         </section>
       </div>
     </>

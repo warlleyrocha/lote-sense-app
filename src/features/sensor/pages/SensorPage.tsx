@@ -25,8 +25,8 @@ export default function SensorPage() {
       <ScreenHeader
         backLabel="Voltar para detalhes do lote"
         backTo={`/lotes/${lot.id}`}
-        subtitle={lot.device.code}
-        title="Sensor"
+        subtitle={`${lot.device.code} • ${lot.stage}`}
+        title="Sensor de armazenamento"
       />
 
       <div className="space-y-7 px-page py-5">

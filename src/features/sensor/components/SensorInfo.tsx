@@ -14,13 +14,13 @@ export default function SensorInfo({
     { label: "ID", value: sensor.id },
     { label: "Nano-lote", value: lot.id },
     { label: "Instalação", value: sensor.installedAt },
-    { label: "Etapa", value: lot.stage },
+    { label: "Monitoramento", value: lot.stage },
   ];
 
   return (
     <section>
       <h2 className="mb-3 text-lg font-semibold text-ink">
-        Informações do sensor
+        Informações do sensor de armazenamento
       </h2>
       <dl className="divide-y divide-line rounded-card border border-line bg-surface px-4">
         {rows.map((row) => (

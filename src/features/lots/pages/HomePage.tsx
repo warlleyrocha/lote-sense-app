@@ -4,14 +4,12 @@ import useGreeting from '@/hooks/useGreeting'
 import LotCard from '../components/LotCard'
 import NotificationBanner from '../components/NotificationBanner'
 import OverviewCard from '../components/OverviewCard'
-import ReferenceCard from '../components/ReferenceCard'
 import { useLots } from '../hooks/useLots'
 
 export default function HomePage() {
   const greeting = useGreeting()
-  const { lots, priorityLots, summary, attentionLot } = useLots()
+  const { priorityLots, summary, attentionLot } = useLots()
   const [notificationsOpen, setNotificationsOpen] = useState(false)
-  const reference = lots[0]
 
   return (
     <>
@@ -54,12 +52,6 @@ export default function HomePage() {
       <section className="px-page">
         <OverviewCard summary={summary} />
       </section>
-
-      {reference && (
-        <section className="mt-4 px-page">
-          <ReferenceCard crop={reference.crop} stage={reference.stage} />
-        </section>
-      )}
 
       <section className="mt-7 px-page">
         <div className="mb-3 flex items-end justify-between">

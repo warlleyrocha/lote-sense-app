@@ -4,7 +4,6 @@ export type IconName =
   | 'bell'
   | 'user'
   | 'home'
-  | 'map'
   | 'alert'
   | 'chevron'
   | 'thermometer'
@@ -13,9 +12,6 @@ export type IconName =
   | 'close'
   | 'arrow-left'
   | 'history'
-  | 'location'
-  | 'plus'
-  | 'minus'
   | 'signal'
   | 'battery'
 
@@ -42,12 +38,6 @@ export default function Icon({ name, className = 'size-5' }: IconProps) {
       <>
         <path d="m3 11 9-8 9 8" />
         <path d="M5 10v11h14V10M9 21v-7h6v7" />
-      </>
-    ),
-    map: (
-      <>
-        <path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3Z" />
-        <path d="M9 3v15M15 6v15" />
       </>
     ),
     alert: (
@@ -78,19 +68,11 @@ export default function Icon({ name, className = 'size-5' }: IconProps) {
         <path d="M3 3v5h5M12 7v5l3 2" />
       </>
     ),
-    plus: <path d="M12 5v14M5 12h14" />,
-    minus: <path d="M5 12h14" />,
     signal: <path d="M4 20v-4M9 20v-8M14 20V8M19 20V4" />,
     battery: (
       <>
         <rect height="10" rx="2" width="17" x="2" y="7" />
         <path d="M22 11v2M6 10v4" />
-      </>
-    ),
-    location: (
-      <>
-        <path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z" />
-        <circle cx="12" cy="10" r="2.5" />
       </>
     ),
   }
