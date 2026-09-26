@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+@theme {
+  --color-canvas: #f5f7f4;
+  --color-surface: #ffffff;
+  --color-muted: #f1f4f0;
+  --color-line: #dfe5de;
+  --color-line-strong: #c8d0c7;
+  --color-ink: #1b241d;
+  --color-ink-muted: #606b62;
+  --color-ink-faint: #7d897f;
+  --color-primary: #245c3d;
+  --color-primary-soft: #e7f0ea;
+  --color-primary-pale: #d9e8de;
+  --color-primary-line: #4e7b62;
+  --color-success: #245c3d;
+  --color-success-soft: #e7f0ea;
+  --color-warning: #8a5b05;
+  --color-warning-soft: #fffbf1;
+  --color-warning-badge: #f7e6bc;
+  --color-warning-border: #e8ce91;
+  --color-warning-light: #ffd77c;
+  --color-critical: #a43831;
+  --color-critical-soft: #fff7f6;
+  --color-critical-badge: #f6d8d5;
+  --color-critical-border: #e5aaa5;
+  --color-critical-light: #ffc2bc;
+  --color-overlay: #14201966;
+  --color-online: #3a8158;
+  --color-primary-hover: #1d4d33;
+
+  --radius-card: 1rem;
+  --radius-inner: 0.75rem;
+  --radius-logo: 0.75rem;
+  --radius-sheet: 1.5rem 1.5rem 0 0;
+  --radius-segment: 0.625rem;
+  --radius-reference: 0.1875rem;
+
+  --shadow-card: 0 0.625rem 1.875rem rgba(36, 92, 61, 0.14);
+  --shadow-nav: 0 -0.25rem 1.5rem rgba(25, 41, 31, 0.07);
+  --shadow-sheet: 0 -1rem 2.5rem rgba(20, 32, 25, 0.18);
+  --shadow-segment: 0 0.0625rem 0.25rem rgba(20, 32, 25, 0.1);
+
+  --spacing-page: 1.25rem;
+  --spacing-mobile: 24.375rem;
+  --spacing-bottom-nav: 7.5rem;
+  --spacing-safe: max(1rem, env(safe-area-inset-bottom));
+  --spacing-nav-item: 4.25rem;
+  --spacing-chart: 6rem;
+  --spacing-history-chart: 11.25rem;
+  --spacing-event-time: 2.75rem;
+  --spacing-timeline-dot: 0.40625rem;
+
+  --tracking-brand: 0.12em;
+  --tracking-section: 0.08em;
+
+  --scale-card: 0.99;
+}
+
+:root {
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  color: var(--color-ink);
+  background: var(--color-canvas);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  min-width: 20rem;
+  min-height: 100dvh;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 0.1875rem solid color-mix(in srgb, var(--color-primary), transparent 55%);
+  outline-offset: 0.125rem;
+}
