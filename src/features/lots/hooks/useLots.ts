@@ -1,7 +1,10 @@
 import { lots, lotsSummary } from '../data/lots'
 
+// A Home destaca só os primeiros da fila de prioridade; o resumo e o mapa usam todos.
+const HOME_LOTS_LIMIT = 5
+
 export function useLots() {
   // Único ponto de acesso à lista: trocar por chamada de API aqui.
   const attentionLot = lots.find((lot) => lot.status !== 'healthy')
-  return { lots, summary: lotsSummary, attentionLot }
+  return { lots, priorityLots: lots.slice(0, HOME_LOTS_LIMIT), summary: lotsSummary, attentionLot }
 }

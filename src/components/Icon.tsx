@@ -14,6 +14,8 @@ export type IconName =
   | 'arrow-left'
   | 'history'
   | 'location'
+  | 'plus'
+  | 'minus'
 
 type IconProps = {
   name: IconName
@@ -74,6 +76,8 @@ export default function Icon({ name, className = 'size-5' }: IconProps) {
         <path d="M3 3v5h5M12 7v5l3 2" />
       </>
     ),
+    plus: <path d="M12 5v14M5 12h14" />,
+    minus: <path d="M5 12h14" />,
     location: (
       <>
         <path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z" />

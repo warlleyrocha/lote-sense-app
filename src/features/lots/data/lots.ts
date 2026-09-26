@@ -1,6 +1,8 @@
 import type { Lot, LotEvent, LotsSummary } from '../types'
+import { formatHumidity, formatTemperature } from '../utils'
 
 const CROP = 'Café Arábica — Catuaí Vermelho'
+const VARIETY = 'Catuaí Vermelho'
 const STAGE = 'Armazenamento'
 
 // Detalhes ainda sem histórico real: um único evento com a leitura atual.
@@ -13,6 +15,38 @@ const latestReading = (time: string, lines: string[], healthy: boolean): LotEven
   },
 ]
 
+// Lotes dentro da referência: só variam sacas, leituras e o horário da última atualização.
+const healthyLot = (
+  id: string,
+  bags: number,
+  temperature: number,
+  humidity: number,
+  minutesAgo: number,
+): Lot => ({
+  id,
+  name: `Nano Lote ${id}`,
+  bags,
+  kg: bags * 60,
+  crop: CROP,
+  variety: VARIETY,
+  stage: STAGE,
+  device: { code: `LoteSense-${id.padStart(3, '0')}`, online: true },
+  temperature,
+  humidity,
+  status: 'healthy',
+  message: 'Dentro do esperado',
+  updated: `Atualizado há ${minutesAgo} min`,
+  peak: {
+    temperature: Math.round((temperature + 1.2) * 10) / 10,
+    humidity: Math.round((humidity + 0.3) * 10) / 10,
+  },
+  events: latestReading(
+    '13:20',
+    [`Temperatura: ${formatTemperature(temperature)}`, `Umidade: ${formatHumidity(humidity)}`],
+    true,
+  ),
+})
+
 export const lots: Lot[] = [
   {
     id: '08',
@@ -20,6 +54,7 @@ export const lots: Lot[] = [
     bags: 4,
     kg: 240,
     crop: CROP,
+    variety: VARIETY,
     stage: STAGE,
     device: { code: 'LoteSense-008', online: true },
     temperature: 27.1,
@@ -60,6 +95,7 @@ export const lots: Lot[] = [
     bags: 3,
     kg: 180,
     crop: CROP,
+    variety: VARIETY,
     stage: STAGE,
     device: { code: 'LoteSense-003', online: true },
     temperature: 24.7,
@@ -76,6 +112,7 @@ export const lots: Lot[] = [
     bags: 5,
     kg: 300,
     crop: CROP,
+    variety: VARIETY,
     stage: STAGE,
     device: { code: 'LoteSense-011', online: true },
     temperature: 23.9,
@@ -92,6 +129,7 @@ export const lots: Lot[] = [
     bags: 4,
     kg: 240,
     crop: CROP,
+    variety: VARIETY,
     stage: STAGE,
     device: { code: 'LoteSense-001', online: true },
     temperature: 20.4,
@@ -108,6 +146,7 @@ export const lots: Lot[] = [
     bags: 3,
     kg: 180,
     crop: CROP,
+    variety: VARIETY,
     stage: STAGE,
     device: { code: 'LoteSense-002', online: true },
     temperature: 21.4,
@@ -118,12 +157,21 @@ export const lots: Lot[] = [
     peak: { temperature: 22.9, humidity: 12.5 },
     events: latestReading('13:18', ['Temperatura: 21,4 °C', 'Umidade: 12,3%'], true),
   },
+  healthyLot('04', 4, 20.8, 12.0, 2),
+  healthyLot('05', 5, 21.1, 12.2, 3),
+  healthyLot('06', 3, 20.2, 11.9, 1),
+  healthyLot('07', 4, 21.6, 12.4, 5),
+  healthyLot('09', 5, 20.5, 12.1, 2),
+  healthyLot('10', 3, 21.0, 12.3, 4),
+  healthyLot('12', 4, 20.9, 12.2, 1),
 ]
 
-// A lista acima traz só os lotes de maior prioridade; o resumo cobre todos.
+// A lista segue a ordem de prioridade (críticos, atenção, dentro do esperado); o resumo cobre todos.
+const countByStatus = (status: Lot['status']) => lots.filter((lot) => lot.status === status).length
+
 export const lotsSummary: LotsSummary = {
-  total: 12,
-  healthy: 9,
-  warning: 2,
-  critical: 1,
+  total: lots.length,
+  healthy: countByStatus('healthy'),
+  warning: countByStatus('warning'),
+  critical: countByStatus('critical'),
 }

@@ -9,7 +9,7 @@ import { useLots } from '../hooks/useLots'
 
 export default function HomePage() {
   const greeting = useGreeting()
-  const { lots, summary, attentionLot } = useLots()
+  const { lots, priorityLots, summary, attentionLot } = useLots()
   const [notificationsOpen, setNotificationsOpen] = useState(false)
   const reference = lots[0]
 
@@ -70,7 +70,7 @@ export default function HomePage() {
           <span className="text-xs font-semibold text-primary">Ver todos ({summary.total})</span>
         </div>
         <div className="space-y-3">
-          {lots.map((lot) => (
+          {priorityLots.map((lot) => (
             <LotCard key={lot.id} lot={lot} />
           ))}
         </div>

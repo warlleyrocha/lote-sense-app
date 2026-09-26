@@ -17,6 +17,7 @@ export type Lot = {
   bags: number
   kg: number
   crop: string
+  variety: string
   stage: string
   device: { code: string; online: boolean }
   temperature: number
