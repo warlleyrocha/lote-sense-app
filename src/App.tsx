@@ -6,13 +6,15 @@ import LotDetailPage from '@/features/lots/pages/LotDetailPage'
 import LotHistoryPage from '@/features/lots/pages/LotHistoryPage'
 import MapPage from '@/features/map/pages/MapPage'
 import SensorPage from '@/features/sensor/pages/SensorPage'
+import LandingPage from '@/pages/LandingPage'
 import PlaceholderPage from '@/pages/PlaceholderPage'
 
 export default function App() {
   return (
     <Routes>
+      <Route element={<LandingPage />} path="/" />
       <Route element={<AppShell withNavigation />}>
-        <Route element={<HomePage />} path="/" />
+        <Route element={<HomePage />} path="/inicio" />
         <Route element={<LotDetailPage />} path="/lotes/:id" />
         <Route element={<SensorPage />} path="/lotes/:id/sensor" />
         <Route element={<MapPage />} path="/mapa" />

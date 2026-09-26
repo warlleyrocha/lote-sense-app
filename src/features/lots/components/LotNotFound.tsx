@@ -9,7 +9,7 @@ export default function LotNotFound() {
       </p>
       <Link
         className="mt-6 inline-flex rounded-inner bg-primary px-4 py-3 text-sm font-semibold text-surface transition-colors hover:bg-primary-hover"
-        to="/"
+        to="/inicio"
       >
         Voltar para o início
       </Link>

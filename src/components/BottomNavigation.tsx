@@ -5,8 +5,8 @@ const items: { label: string; icon: IconName; to: string; match: (path: string) 
   {
     label: 'Início',
     icon: 'home',
-    to: '/',
-    match: (path) => path === '/' || path.startsWith('/lotes'),
+    to: '/inicio',
+    match: (path) => path === '/inicio' || path.startsWith('/lotes'),
   },
   { label: 'Mapa', icon: 'map', to: '/mapa', match: (path) => path.startsWith('/mapa') },
   { label: 'Alertas', icon: 'alert', to: '/alertas', match: (path) => path.startsWith('/alertas') },

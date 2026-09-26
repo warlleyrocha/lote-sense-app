@@ -42,7 +42,7 @@ export default function LotDetailPage() {
     <>
       <ScreenHeader
         backLabel="Voltar para a Home"
-        backTo="/"
+        backTo="/inicio"
         subtitle="Detalhes do nano-lote"
         title={lot.name}
       />
