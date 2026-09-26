@@ -16,6 +16,8 @@ export type IconName =
   | 'location'
   | 'plus'
   | 'minus'
+  | 'signal'
+  | 'battery'
 
 type IconProps = {
   name: IconName
@@ -78,6 +80,13 @@ export default function Icon({ name, className = 'size-5' }: IconProps) {
     ),
     plus: <path d="M12 5v14M5 12h14" />,
     minus: <path d="M5 12h14" />,
+    signal: <path d="M4 20v-4M9 20v-8M14 20V8M19 20V4" />,
+    battery: (
+      <>
+        <rect height="10" rx="2" width="17" x="2" y="7" />
+        <path d="M22 11v2M6 10v4" />
+      </>
+    ),
     location: (
       <>
         <path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z" />

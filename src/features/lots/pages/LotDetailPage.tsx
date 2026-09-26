@@ -57,10 +57,15 @@ export default function LotDetailPage() {
             <span className="rounded-full bg-primary-soft px-3 py-1.5 text-xs font-medium text-primary">
               {lot.stage}
             </span>
-            <span className="flex items-center gap-1.5 rounded-full bg-surface px-3 py-1.5 text-xs font-medium text-ink-muted ring-1 ring-line">
+            <Link
+              aria-label={`Ver detalhes do sensor ${lot.device.code}`}
+              className="flex items-center gap-1.5 rounded-full bg-surface px-3 py-1.5 text-xs font-medium text-ink-muted ring-1 ring-line"
+              to={`/lotes/${lot.id}/sensor`}
+            >
               <span className={`size-1.5 rounded-full ${lot.device.online ? 'bg-online' : 'bg-line-strong'}`} />
               {lot.device.code} • {lot.device.online ? 'Online' : 'Offline'}
-            </span>
+              <Icon className="size-3.5 text-ink-faint" name="chevron" />
+            </Link>
           </div>
         </section>
 
