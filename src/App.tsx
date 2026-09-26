@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router'
 import AppShell from '@/components/AppShell'
+import AlertsPage from '@/features/alerts/pages/AlertsPage'
 import HomePage from '@/features/lots/pages/HomePage'
 import LotDetailPage from '@/features/lots/pages/LotDetailPage'
 import LotHistoryPage from '@/features/lots/pages/LotHistoryPage'
@@ -12,7 +13,7 @@ export default function App() {
         <Route element={<HomePage />} path="/" />
         <Route element={<LotDetailPage />} path="/lotes/:id" />
         <Route element={<PlaceholderPage title="Mapa" />} path="/mapa" />
-        <Route element={<PlaceholderPage title="Alertas" />} path="/alertas" />
+        <Route element={<AlertsPage />} path="/alertas" />
         <Route element={<PlaceholderPage title="Perfil" />} path="/perfil" />
       </Route>
       <Route element={<AppShell />}>
