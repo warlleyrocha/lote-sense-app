@@ -1,11 +1,21 @@
+import { useState } from 'react'
 import Icon from '@/components/Icon'
 import AccountSection from '../components/AccountSection'
 import MenuSection from '../components/MenuSection'
 import ProfileCard from '../components/ProfileCard'
+import ReferenceSheet from '../components/ReferenceSheet'
 import { useProfile } from '../hooks/useProfile'
 
 export default function ProfilePage() {
-  const { producer, totalLots, totalBags, operation, preferences } = useProfile()
+  const [referenceOpen, setReferenceOpen] = useState(false)
+  // Muda a cada abertura para o painel começar dos valores salvos, sem restos da edição anterior.
+  const [referenceSession, setReferenceSession] = useState(0)
+  const { producer, totalLots, totalBags, operation, preferences } = useProfile({
+    onEditReference: () => {
+      setReferenceSession((session) => session + 1)
+      setReferenceOpen(true)
+    },
+  })
 
   return (
     <>
@@ -27,6 +37,8 @@ export default function ProfilePage() {
           Sobre o LoteSense • Versão 1.0.0
         </div>
       </div>
+
+      <ReferenceSheet key={referenceSession} onClose={() => setReferenceOpen(false)} open={referenceOpen} />
     </>
   )
 }

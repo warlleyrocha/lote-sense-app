@@ -1,4 +1,5 @@
-import { reference } from './constants'
+import type { Reference } from './constants'
+import { getReference } from './reference'
 import type { Bag, Lot, LotStatus, Metric } from './types'
 
 const number = new Intl.NumberFormat('pt-BR', {
@@ -25,8 +26,7 @@ export const formatReferenceValue = (metric: Metric, value: number) =>
 export const formatAxisValue = (metric: Metric, value: number, decimals: number) =>
   `${value.toLocaleString('pt-BR', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })}${unit[metric]}`
 
-export function formatReference(metric: Metric) {
-  const { min, max } = reference[metric]
+export function formatReference(metric: Metric, { min, max }: Reference = getReference()[metric]) {
   if (min === undefined) return `até ${formatReferenceValue(metric, max)}`
   return `${referenceNumber.format(min)}–${formatReferenceValue(metric, max)}`
 }
@@ -34,7 +34,7 @@ export function formatReference(metric: Metric) {
 export type ReferenceState = 'above' | 'below' | 'tolerance' | 'within'
 
 export function getReferenceState(metric: Metric, value: number): ReferenceState {
-  const { min, max, limit } = reference[metric]
+  const { min, max, limit } = getReference()[metric]
   if (value > (limit ?? max)) return 'above'
   if (value > max) return 'tolerance'
   if (min !== undefined && value < min) return 'below'

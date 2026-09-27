@@ -10,4 +10,6 @@ export type MenuRow = {
   icon: IconName
   label: string
   value: string
+  // Linhas com ação viram botão; as demais são só informativas.
+  onSelect?: () => void
 }

@@ -1,4 +1,5 @@
-import { reference, statusStyles } from '../constants'
+import { statusStyles } from '../constants'
+import { useReference } from '../reference'
 import type { LotStatus, Metric } from '../types'
 import { formatAxisValue } from '../utils'
 
@@ -67,7 +68,7 @@ export default function MetricChart({
   yTickCount = 4,
 }: MetricChartProps) {
   const styles = statusStyles[status]
-  const { min, max } = reference[metric]
+  const { min, max } = useReference()[metric]
 
   const yTicks = niceTicks(
     Math.min(...values, min ?? max),

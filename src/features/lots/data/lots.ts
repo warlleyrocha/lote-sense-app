@@ -40,7 +40,7 @@ const bag = (lotId: string, number: number, input: BagInput): Bag => ({
   },
 })
 
-// Leitura de uma saca com status derivado da referência (temperatura ideal 18–22 °C,
+// Leitura de uma saca com status derivado da referência (padrão: temperatura ideal 18–22 °C,
 // tolerância até 25 °C; umidade ideal 10,8–11,2%, tolerância até 12,5%).
 const bagReading = (time: string, item: Bag): LotEvent => {
   const states = [

@@ -15,7 +15,10 @@ export const metricLabel: Record<Metric, string> = {
 // `limit` é a tolerância: ainda aceita, mas já acima do recomendado.
 export type Reference = { min?: number; max: number; limit?: number }
 
-export const reference: Record<Metric, Reference> = {
+export type References = Record<Metric, Reference>
+
+// Padrão sugerido; o produtor pode ajustar em Perfil › Preferências (ver `reference.ts`).
+export const defaultReference: References = {
   temperature: { min: 18, max: 22, limit: 25 },
   humidity: { min: 10.8, max: 11.2, limit: 12.5 },
 }
