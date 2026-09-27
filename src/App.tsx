@@ -5,7 +5,7 @@ import HomePage from '@/features/lots/pages/HomePage'
 import LotDetailPage from '@/features/lots/pages/LotDetailPage'
 import LotHistoryPage from '@/features/lots/pages/LotHistoryPage'
 import LotsPage from '@/features/lots/pages/LotsPage'
-import SensorPage from '@/features/sensor/pages/SensorPage'
+import BagPage from '@/features/sensor/pages/BagPage'
 import ProfilePage from '@/features/profile/pages/ProfilePage'
 import LandingPage from '@/pages/LandingPage'
 
@@ -17,7 +17,7 @@ export default function App() {
         <Route element={<HomePage />} path="/inicio" />
         <Route element={<LotsPage />} path="/lotes" />
         <Route element={<LotDetailPage />} path="/lotes/:id" />
-        <Route element={<SensorPage />} path="/lotes/:id/sensor" />
+        <Route element={<BagPage />} path="/lotes/:id/sacas/:bag" />
         <Route element={<AlertsPage />} path="/alertas" />
         <Route element={<ProfilePage />} path="/perfil" />
       </Route>

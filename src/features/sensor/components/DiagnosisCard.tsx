@@ -1,12 +1,10 @@
 import type { ReactNode } from "react";
 import Icon from "@/components/Icon";
 import { metricLabel } from "@/features/lots/constants";
-import type { Lot, Metric } from "@/features/lots/types";
-import { getReferenceState, isDeviation } from "@/features/lots/utils";
+import type { Bag, Lot } from "@/features/lots/types";
+import { bagLabel, deviatingMetrics } from "@/features/lots/utils";
 import { reliabilityContent } from "../constants";
 import type { Reliability } from "../types";
-
-const metrics: Metric[] = ["temperature", "humidity"];
 
 function Row({
   label,
@@ -36,20 +34,24 @@ function Row({
   );
 }
 
-// Separa "problema no café" de "problema no sensor". O café usa tom neutro: âmbar/vermelho ficam para o equipamento.
+// Separa "problema no café" de "problema no sensor" e compara com as outras sacas do lote:
+// desvio só nesta saca aponta para a saca; em todas, para o ambiente.
+// O café usa tom neutro: âmbar/vermelho ficam para o equipamento.
 export default function DiagnosisCard({
   lot,
+  bag,
   reliability,
 }: {
   lot: Lot;
+  bag: Bag;
   reliability: Reliability;
 }) {
   const sensorContent = reliabilityContent[reliability];
-  const deviating = metrics.filter(
-    (metric) => isDeviation(getReferenceState(metric, lot[metric])),
-  );
+  const deviating = deviatingMetrics(bag);
   const coffeeOk = deviating.length === 0;
   const sensorOk = reliability === "reliable";
+  const others = lot.bags.filter((item) => item.number !== bag.number);
+  const othersAffected = others.filter((item) => item.status !== "healthy");
 
   const deviatingNames = deviating.map((metric, index) => {
     const label = metricLabel[metric];
@@ -58,15 +60,28 @@ export default function DiagnosisCard({
   const coffeeText = coffeeOk
     ? "Dentro da referência"
     : `${deviatingNames.join(" e ")} fora da referência`;
+  let othersText: string;
+  if (othersAffected.length === 0) {
+    othersText = `${others.length === 1 ? "A outra está" : `As ${others.length} estão`} dentro do esperado`;
+  } else if (othersAffected.length === others.length) {
+    othersText = `${others.length === 1 ? "A outra também está" : `As ${others.length} também estão`} fora do esperado`;
+  } else {
+    othersText = `${othersAffected.length} de ${others.length} fora do esperado`;
+  }
 
   let conclusion: string;
   if (!sensorOk) {
     conclusion =
       "O sensor apresenta problema. Confirme no local antes de agir sobre o café.";
   } else if (coffeeOk) {
-    conclusion = "Leitura válida: o café está dentro da referência.";
+    conclusion = "Leitura válida: o café desta saca está dentro da referência.";
+  } else if (othersAffected.length === 0 && others.length > 0) {
+    conclusion = `Leitura válida: o desvio é só desta saca. Localize-a pela etiqueta ${bag.tag} e verifique o café.`;
+  } else if (othersAffected.length === others.length) {
+    conclusion =
+      "Leitura válida: todas as sacas do lote desviam juntas, o que indica uma condição do ambiente de armazenamento.";
   } else {
-    conclusion = `Leitura válida: a alteração no ${lot.name} vem do café, não de falha do equipamento.`;
+    conclusion = `Leitura válida: o desvio atinge parte das sacas do ${lot.name}. Verifique as sacas afetadas e o entorno delas.`;
   }
 
   return (
@@ -94,10 +109,23 @@ export default function DiagnosisCard({
                 ? "bg-primary-soft text-primary"
                 : "bg-muted text-ink ring-1 ring-line-strong"
             }
-            label={`Café • ${lot.name}`}
+            label={`Café • ${bagLabel(bag.number)}`}
           >
             {coffeeText}
           </Row>
+          {others.length > 0 && (
+            <Row
+              icon={othersAffected.length === 0 ? "check" : "alert"}
+              iconClass={
+                othersAffected.length === 0
+                  ? "bg-primary-soft text-primary"
+                  : "bg-muted text-ink ring-1 ring-line-strong"
+              }
+              label={`Outras sacas • ${lot.name}`}
+            >
+              {othersText}
+            </Row>
+          )}
         </div>
         <p className="border-t border-line py-3.5 text-sm leading-relaxed text-ink-muted">
           {conclusion}

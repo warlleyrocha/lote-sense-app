@@ -2,26 +2,13 @@ import type { Sensor } from "../types";
 
 export const INSTALLED_AT = "25/09/2026";
 
-// Sensores com dados próprios; os demais usam `defaultSensor`.
-export const sensors: Sensor[] = [
-  {
-    id: "LS-008",
-    lotId: "08",
-    installedAt: INSTALLED_AT,
-    online: true,
-    operational: true,
-    signal: 98,
-    battery: 82,
-    lastCommunication: "agora",
-    collected: "há menos de 1 minuto",
-    lastSync: "13:08:42",
-    intervalMinutes: 5,
-  },
-];
-
-export const defaultSensor = (lotId: string): Sensor => ({
-  id: `LS-${lotId.padStart(3, "0")}`,
-  lotId,
+// Sensor com leituras normais; `overrides` cobre os casos com dados próprios.
+export const sensor = (
+  lotId: string,
+  bag: number,
+  overrides: Partial<Sensor> = {},
+): Sensor => ({
+  id: `LS-${lotId.padStart(3, "0")}-${bag}`,
   installedAt: INSTALLED_AT,
   online: true,
   operational: true,
@@ -31,4 +18,5 @@ export const defaultSensor = (lotId: string): Sensor => ({
   collected: "há 2 minutos",
   lastSync: "13:07:15",
   intervalMinutes: 5,
+  ...overrides,
 });

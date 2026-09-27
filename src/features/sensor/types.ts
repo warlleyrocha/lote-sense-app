@@ -1,8 +1,7 @@
-import type { Lot } from "@/features/lots/types";
+import type { Bag, Lot } from "@/features/lots/types";
 
 export type Sensor = {
   id: string;
-  lotId: string;
   installedAt: string;
   online: boolean;
   operational: boolean;
@@ -20,4 +19,4 @@ export type Tone = "ok" | "warning" | "critical";
 
 export type Reliability = "reliable" | "attention" | "unreliable";
 
-export type SensorDetail = { lot: Lot; sensor: Sensor };
+export type BagDetail = { lot: Lot; bag: Bag };

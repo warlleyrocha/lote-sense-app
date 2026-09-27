@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useParams } from 'react-router'
+import { useParams, useSearchParams } from 'react-router'
 import ScreenHeader from '@/components/ScreenHeader'
 import SegmentedControl from '@/components/SegmentedControl'
 import EventTimeline from '../components/EventTimeline'
@@ -9,7 +9,14 @@ import ReferenceHint from '../components/ReferenceHint'
 import { metricLabel, statusStyles } from '../constants'
 import { useLot } from '../hooks/useLot'
 import type { Metric } from '../types'
-import { formatHumidity, formatMetric, formatReference, formatTemperature } from '../utils'
+import {
+  affectedBags,
+  bagLabel,
+  formatHumidity,
+  formatMetric,
+  formatReference,
+  formatTemperature,
+} from '../utils'
 
 const periods = [
   { id: '24h', label: '24h' },
@@ -27,10 +34,18 @@ export default function LotHistoryPage() {
   const lot = useLot(id)
   const [period, setPeriod] = useState('24h')
   const [metric, setMetric] = useState<Metric>('temperature')
+  const [searchParams, setSearchParams] = useSearchParams()
 
   if (!lot) return <LotNotFound />
 
-  const styles = statusStyles[lot.status]
+  // O lote não tem leitura própria: o gráfico é sempre de uma saca. Sem `?saca=`, abre na que pede mais atenção.
+  const bag =
+    lot.bags.find((item) => String(item.number) === searchParams.get('saca')) ??
+    affectedBags(lot)[0] ??
+    lot.bags[0]
+  const bagOptions = lot.bags.map((item) => ({ id: String(item.number), label: bagLabel(item.number) }))
+  const events = lot.events.filter((event) => event.bag === undefined || event.bag === bag.number)
+  const styles = statusStyles[bag.status]
 
   return (
     <>
@@ -45,11 +60,22 @@ export default function LotHistoryPage() {
         <section>
           <p className="text-sm font-semibold text-ink">{lot.crop}</p>
           <p className="mt-1 text-sm text-ink-muted">
-            {lot.bags} sacas • {lot.kg} kg
+            {lot.bags.length} sacas • {lot.kg} kg
           </p>
           <span className="mt-3 inline-flex rounded-full bg-primary-soft px-3 py-1.5 text-xs font-medium text-primary">
             Etapa: {lot.stage}
           </span>
+        </section>
+
+        <section>
+          <p className="mb-3 text-xs font-semibold uppercase tracking-section text-ink-faint">Saca</p>
+          <SegmentedControl
+            label="Saca"
+            onChange={(value) => setSearchParams({ saca: value }, { replace: true })}
+            options={bagOptions}
+            value={String(bag.number)}
+          />
+          <p className="mt-2 text-xs text-ink-faint">Etiqueta {bag.tag}</p>
         </section>
 
         <section>
@@ -58,9 +84,9 @@ export default function LotHistoryPage() {
         </section>
 
         <section className="rounded-card border border-line bg-surface p-4">
-          <h2 className="text-lg font-semibold text-ink">Condições nas últimas 24h</h2>
+          <h2 className="text-lg font-semibold text-ink">{bagLabel(bag.number)} nas últimas 24h</h2>
           <p className="mt-1 text-sm text-ink-muted">
-            {lot.status === 'healthy'
+            {bag.status === 'healthy'
               ? 'As condições se mantiveram estáveis no período.'
               : 'O desvio começou nas últimas horas do período.'}
           </p>
@@ -77,7 +103,7 @@ export default function LotHistoryPage() {
             <div>
               <p className="text-xs text-ink-faint">Valor atual</p>
               <p className={`mt-1 text-2xl font-semibold ${styles.text}`}>
-                {formatMetric(metric, lot[metric])}
+                {formatMetric(metric, bag[metric])}
               </p>
             </div>
             <div className="rounded-inner bg-primary-soft px-3 py-2 text-right">
@@ -89,16 +115,16 @@ export default function LotHistoryPage() {
             </div>
           </div>
 
-          <HistoryChart metric={metric} status={lot.status} value={lot[metric]} />
+          <HistoryChart metric={metric} status={bag.status} value={bag[metric]} />
         </section>
 
         <section>
           <h2 className="mb-4 text-lg font-semibold text-ink">Eventos registrados</h2>
-          <EventTimeline events={lot.events} />
+          <EventTimeline events={events} />
         </section>
 
         <section className="rounded-card border border-line bg-surface p-4">
-          <p className="text-sm font-semibold text-ink">Resumo do período</p>
+          <p className="text-sm font-semibold text-ink">Resumo do período • {bagLabel(bag.number)}</p>
           <div className="mt-4 grid grid-cols-3 divide-x divide-line">
             <div className="pr-3">
               <p className="text-xs leading-tight text-ink-faint">Período monitorado</p>
@@ -107,13 +133,13 @@ export default function LotHistoryPage() {
             <div className="px-3">
               <p className="text-xs leading-tight text-ink-faint">Maior temperatura</p>
               <p className={`mt-2 text-base font-semibold ${styles.text}`}>
-                {formatTemperature(lot.peak.temperature)}
+                {formatTemperature(bag.peak.temperature)}
               </p>
             </div>
             <div className="pl-3">
               <p className="text-xs leading-tight text-ink-faint">Maior umidade</p>
               <p className={`mt-2 text-base font-semibold ${styles.text}`}>
-                {formatHumidity(lot.peak.humidity)}
+                {formatHumidity(bag.peak.humidity)}
               </p>
             </div>
           </div>

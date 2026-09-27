@@ -1,7 +1,7 @@
 import Icon from "@/components/Icon";
 import ReferenceHint from "@/features/lots/components/ReferenceHint";
 import { metricLabel } from "@/features/lots/constants";
-import type { Lot, Metric } from "@/features/lots/types";
+import type { Bag, Metric } from "@/features/lots/types";
 import {
   formatMetric,
   formatReference,
@@ -9,7 +9,7 @@ import {
   isDeviation,
   referenceStateLabel,
 } from "@/features/lots/utils";
-import type { Reliability, Sensor } from "../types";
+import type { Reliability } from "../types";
 
 const metrics: { metric: Metric; icon: "thermometer" | "droplet" }[] = [
   { metric: "temperature", icon: "thermometer" },
@@ -17,15 +17,13 @@ const metrics: { metric: Metric; icon: "thermometer" | "droplet" }[] = [
 ];
 
 type CurrentReadingsProps = {
-  lot: Lot;
-  sensor: Sensor;
+  bag: Bag;
   reliability: Reliability;
 };
 
 // Valores em tom neutro: aqui a cor de alerta só indica problema do equipamento (ver `reliability`).
 export default function CurrentReadings({
-  lot,
-  sensor,
+  bag,
   reliability,
 }: CurrentReadingsProps) {
   const stale = reliability === "unreliable";
@@ -33,7 +31,7 @@ export default function CurrentReadings({
   return (
     <section>
       <div className="mb-3 flex items-center justify-between gap-3">
-        <h2 className="text-lg font-semibold text-ink">Condições do armazenamento</h2>
+        <h2 className="text-lg font-semibold text-ink">Condições dentro da saca</h2>
         <span className="rounded-full bg-primary-soft px-2.5 py-1 text-xs font-medium text-primary">
           Medidos pelo sensor
         </span>
@@ -41,7 +39,7 @@ export default function CurrentReadings({
 
       <div className="grid grid-cols-2 gap-3">
         {metrics.map(({ metric, icon }) => {
-          const value = lot[metric];
+          const value = bag[metric];
           const state = getReferenceState(metric, value);
           return (
             <article
@@ -78,7 +76,7 @@ export default function CurrentReadings({
         className={`mt-3 flex items-center gap-1.5 text-sm ${stale ? "font-medium text-critical" : "text-ink-muted"}`}
       >
         <Icon className="size-4" name="history" />
-        Dados coletados {sensor.collected}
+        Dados coletados {bag.sensor.collected}
       </p>
     </section>
   );

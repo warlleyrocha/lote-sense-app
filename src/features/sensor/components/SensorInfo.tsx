@@ -1,18 +1,13 @@
-import type { Lot } from "@/features/lots/types";
+import type { Bag, Lot } from "@/features/lots/types";
 import { toneStyles } from "../constants";
-import type { Sensor } from "../types";
 
-export default function SensorInfo({
-  lot,
-  sensor,
-}: {
-  lot: Lot;
-  sensor: Sensor;
-}) {
+export default function SensorInfo({ lot, bag }: { lot: Lot; bag: Bag }) {
+  const { sensor } = bag;
   const operational = sensor.online && sensor.operational;
   const rows = [
     { label: "ID", value: sensor.id },
-    { label: "Lote", value: lot.id },
+    { label: "Etiqueta da saca", value: bag.tag },
+    { label: "Lote", value: lot.name },
     { label: "Instalação", value: sensor.installedAt },
     { label: "Monitoramento", value: lot.stage },
   ];
@@ -20,7 +15,7 @@ export default function SensorInfo({
   return (
     <section>
       <h2 className="mb-3 text-lg font-semibold text-ink">
-        Informações do sensor de armazenamento
+        Informações do sensor
       </h2>
       <dl className="divide-y divide-line rounded-card border border-line bg-surface px-4">
         {rows.map((row) => (

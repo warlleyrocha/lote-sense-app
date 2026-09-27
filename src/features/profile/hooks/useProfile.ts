@@ -1,9 +1,11 @@
 import { lots, lotsSummary } from '@/features/lots/data/lots'
+import { countOnlineSensors } from '@/features/lots/utils'
 import { preferences, producer } from '../data/profile'
 
 export function useProfile() {
-  const totalBags = lots.reduce((sum, lot) => sum + lot.bags, 0)
-  const activeSensors = lots.filter((lot) => lot.device.online).length
+  // Um sensor por saca.
+  const totalBags = lots.reduce((sum, lot) => sum + lot.bags.length, 0)
+  const activeSensors = lots.reduce((sum, lot) => sum + countOnlineSensors(lot), 0)
   const stage = lots[0]?.stage ?? '—'
 
   const operation = [
