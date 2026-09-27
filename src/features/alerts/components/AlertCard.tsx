@@ -1,20 +1,16 @@
 import { Link } from 'react-router'
 import Icon from '@/components/Icon'
-import { metricLabel, statusLabel, statusStyles } from '@/features/lots/constants'
-import type { Metric } from '@/features/lots/types'
-import { formatMetric, getReferenceState, referenceStateLabel } from '@/features/lots/utils'
+import BagRow from '@/features/lots/components/BagRow'
+import { statusLabel, statusStyles } from '@/features/lots/constants'
+import { bagPath } from '@/features/lots/utils'
 import type { ActiveAlert } from '../types'
 import { formatAlertTime } from '../utils'
-
-const metrics: { metric: Metric; icon: 'thermometer' | 'droplet' }[] = [
-  { metric: 'temperature', icon: 'thermometer' },
-  { metric: 'humidity', icon: 'droplet' },
-]
 
 export default function AlertCard({ alert }: { alert: ActiveAlert }) {
   const { lot, severity } = alert
   const styles = statusStyles[severity]
   const critical = severity === 'critical'
+  const bags = lot.bags.filter((bag) => alert.bags.includes(bag.number))
 
   return (
     <article
@@ -42,28 +38,11 @@ export default function AlertCard({ alert }: { alert: ActiveAlert }) {
         <p className="mt-0.5 text-sm text-ink-muted">{lot.crop}</p>
       </div>
 
-      <dl className={`mt-4 grid grid-cols-2 gap-3 border-y py-3 ${styles.divider}`}>
-        {metrics.map(({ metric, icon }, index) => {
-          const value = lot[metric]
-          const deviated = alert.metrics.includes(metric)
-          return (
-            <div className={index > 0 ? `border-l pl-3 ${styles.divider}` : ''} key={metric}>
-              <dt className="flex items-center gap-1.5 text-xs text-ink-muted">
-                <Icon className={`size-4 ${deviated ? styles.text : 'text-ink-faint'}`} name={icon} />
-                {metricLabel[metric]}
-              </dt>
-              <dd className={`mt-1 text-xl font-semibold ${deviated ? styles.text : 'text-ink'}`}>
-                {formatMetric(metric, value)}
-              </dd>
-              {deviated && (
-                <dd className={`mt-0.5 text-xs font-medium ${styles.text}`}>
-                  {referenceStateLabel[getReferenceState(metric, value)]}
-                </dd>
-              )}
-            </div>
-          )
-        })}
-      </dl>
+      <div className={`mt-3 divide-y border-y divide-inherit ${styles.divider}`}>
+        {bags.map((bag) => (
+          <BagRow bag={bag} key={bag.number} to={bagPath(lot.id, bag.number)} />
+        ))}
+      </div>
 
       <p className={`mt-3 text-sm font-medium ${styles.text}`}>“{alert.message}”</p>
 

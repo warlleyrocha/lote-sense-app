@@ -14,10 +14,10 @@ React + TypeScript + Vite + Tailwind CSS v4 + React Router. Web mobile-first: a 
 - `components/` — UI compartilhada sem regra de negócio (`Icon`, `IconButton`, `BottomNavigation`, `ScreenHeader`, `SegmentedControl`, `AppShell`)
 - `hooks/` — hooks compartilhados (`useGreeting`)
 - `pages/` — páginas fora de features (`PlaceholderPage` para Perfil)
-- `features/lots/` — nano-lotes
+- `features/lots/` — lotes: cada lote agrupa até 5 sacas, e cada saca tem o próprio sensor
   - `components/`, `pages/`, `hooks/` (`useLots`, `useLot`)
   - `data/` — dados mockados (trocar o interior dos hooks por API quando existir)
   - `types.ts`, `constants.ts` (rótulos, faixas de referência, classes por status), `utils.ts` (formatação)
 - `index.css` — Tailwind + tokens do design (`@theme`)
 
-Rotas: `/` · `/inicio` · `/lotes/:id` · `/lotes/:id/sensor` · `/lotes/:id/historico` · `/alertas` · `/perfil`. O alias `@` aponta para `src/`.
+Rotas: `/` · `/inicio` · `/lotes/:id` · `/lotes/:id/sacas/:bag` · `/lotes/:id/historico?saca=` · `/alertas` · `/perfil`. O alias `@` aponta para `src/`.

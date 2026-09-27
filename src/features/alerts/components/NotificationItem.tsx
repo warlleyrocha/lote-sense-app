@@ -1,6 +1,7 @@
 import { Link } from 'react-router'
 import Icon from '@/components/Icon'
 import { statusLabel, statusStyles } from '@/features/lots/constants'
+import { formatBagList } from '@/features/lots/utils'
 import type { LotAlert } from '../types'
 import { formatAlertTime } from '../utils'
 
@@ -21,7 +22,9 @@ export default function NotificationItem({ alert }: { alert: LotAlert }) {
       </div>
       <div className="min-w-0 flex-1">
         <div className="flex items-center justify-between gap-2">
-          <p className="truncate text-sm font-semibold text-ink">{alert.lot.name}</p>
+          <p className="truncate text-sm font-semibold text-ink">
+            {alert.lot.name} • {formatBagList(alert.bags)}
+          </p>
           <span
             className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold ${styles.badge}`}
           >

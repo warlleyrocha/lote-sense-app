@@ -5,6 +5,8 @@ export type AlertSeverity = Extract<LotStatus, 'critical' | 'warning'>
 type AlertBase = {
   id: string
   lotId: string
+  // Números das sacas em que o desvio foi detectado: um alerta por lote, não por saca.
+  bags: number[]
   // Indicadores que saíram (ou voltaram) da faixa de referência.
   metrics: Metric[]
   message: string

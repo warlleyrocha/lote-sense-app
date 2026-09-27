@@ -1,5 +1,6 @@
 import { Link } from 'react-router'
 import Icon from '@/components/Icon'
+import { formatBagList } from '@/features/lots/utils'
 import type { ResolvedAlert } from '../types'
 import { formatAlertTime } from '../utils'
 
@@ -14,7 +15,9 @@ export default function ResolvedAlertCard({ alert }: { alert: ResolvedAlert }) {
         <Icon className="size-4" name="check" />
       </div>
       <div className="min-w-0 flex-1">
-        <p className="text-sm font-semibold text-ink">{alert.lot.name}</p>
+        <p className="text-sm font-semibold text-ink">
+          {alert.lot.name} • {formatBagList(alert.bags)}
+        </p>
         <p className="mt-0.5 text-sm text-ink-muted">{alert.message}</p>
         <p className="mt-1 text-xs text-ink-faint">{formatAlertTime(alert)}</p>
       </div>

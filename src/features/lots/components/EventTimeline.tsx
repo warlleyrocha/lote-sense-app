@@ -1,5 +1,6 @@
 import Icon from '@/components/Icon'
 import type { EventTone, LotEvent } from '../types'
+import { bagLabel } from '../utils'
 
 const dotClass: Record<EventTone, string> = {
   warning: 'bg-warning',
@@ -11,12 +12,17 @@ export default function EventTimeline({ events }: { events: LotEvent[] }) {
   return (
     <div className="relative ml-2 border-l border-line">
       {events.map((event, index) => (
-        <article className={`relative ${index < events.length - 1 ? 'pb-6 pl-6' : ''}`} key={event.time}>
+        <article className={`relative ${index < events.length - 1 ? 'pb-6 pl-6' : ''}`} key={`${event.time}-${event.bag ?? 'lote'}`}>
           <span
             className={`absolute -left-timeline-dot size-3 rounded-full ring-4 ring-canvas ${dotClass[event.tone]}`}
           />
           <p className="text-xs font-semibold text-ink-faint pl-4">{event.time}</p>
           <div className="mt-2 rounded-card border border-line bg-surface p-4">
+            {event.bag !== undefined && (
+              <p className="mb-1 text-xs font-semibold uppercase tracking-section text-ink-faint">
+                {bagLabel(event.bag)}
+              </p>
+            )}
             {event.lines.map((line) => (
               <p className="text-sm font-medium leading-relaxed text-ink" key={line}>
                 {line}
