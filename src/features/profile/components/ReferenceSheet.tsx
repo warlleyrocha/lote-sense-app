@@ -58,7 +58,8 @@ function validate(metric: Metric, values: Record<Field, number>, [low, high]: [n
   return undefined
 }
 
-// <dialog> modal nativo que sobe da base da tela; a key do pai reinicia o rascunho a cada abertura.
+// <dialog> modal nativo que sobe da base da tela. Fica sempre montado, como o drawer de notificações:
+// criar o elemento e chamar showModal() no mesmo instante deixa o painel fora da tela no mobile.
 export default function ReferenceSheet({ open, onClose }: ReferenceSheetProps) {
   const ref = useRef<HTMLDialogElement>(null)
   const titleRef = useRef<HTMLHeadingElement>(null)
@@ -66,6 +67,16 @@ export default function ReferenceSheet({ open, onClose }: ReferenceSheetProps) {
   const fieldId = useId()
   const [draft, setDraft] = useState(() => toDraft(getReference()))
   const [submitted, setSubmitted] = useState(false)
+  const [wasOpen, setWasOpen] = useState(open)
+
+  // Cada abertura começa dos valores salvos, sem restos da edição anterior.
+  if (open !== wasOpen) {
+    setWasOpen(open)
+    if (open) {
+      setDraft(toDraft(getReference()))
+      setSubmitted(false)
+    }
+  }
 
   useEffect(() => {
     const dialog = ref.current

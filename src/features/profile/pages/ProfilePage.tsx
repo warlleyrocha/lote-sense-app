@@ -8,13 +8,8 @@ import { useProfile } from '../hooks/useProfile'
 
 export default function ProfilePage() {
   const [referenceOpen, setReferenceOpen] = useState(false)
-  // Muda a cada abertura para o painel começar dos valores salvos, sem restos da edição anterior.
-  const [referenceSession, setReferenceSession] = useState(0)
   const { producer, totalLots, totalBags, operation, preferences } = useProfile({
-    onEditReference: () => {
-      setReferenceSession((session) => session + 1)
-      setReferenceOpen(true)
-    },
+    onEditReference: () => setReferenceOpen(true),
   })
 
   return (
@@ -38,7 +33,7 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      <ReferenceSheet key={referenceSession} onClose={() => setReferenceOpen(false)} open={referenceOpen} />
+      <ReferenceSheet onClose={() => setReferenceOpen(false)} open={referenceOpen} />
     </>
   )
 }
