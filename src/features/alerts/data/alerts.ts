@@ -9,7 +9,7 @@ export const alerts: Alert[] = [
     severity: 'critical',
     metrics: ['temperature', 'humidity'],
     message: 'Condição fora da faixa esperada.',
-    time: 'Detectado há 18 min',
+    minutesAgo: 18,
   },
   {
     id: 'a-03',
@@ -18,7 +18,7 @@ export const alerts: Alert[] = [
     severity: 'warning',
     metrics: ['temperature', 'humidity'],
     message: 'Temperatura e umidade em elevação.',
-    time: 'Detectado há 42 min',
+    minutesAgo: 42,
   },
   {
     id: 'a-11',
@@ -27,7 +27,15 @@ export const alerts: Alert[] = [
     severity: 'warning',
     metrics: ['humidity'],
     message: 'Umidade acima da referência.',
-    time: 'Detectado há 1h',
+    minutesAgo: 60,
+  },
+  {
+    id: 'a-05',
+    lotId: '05',
+    state: 'resolved',
+    metrics: ['humidity'],
+    message: 'Umidade retornou à faixa esperada.',
+    minutesAgo: 35,
   },
   {
     id: 'a-02',
@@ -35,6 +43,6 @@ export const alerts: Alert[] = [
     state: 'resolved',
     metrics: ['temperature'],
     message: 'Temperatura retornou à faixa esperada.',
-    time: 'Resolvido há 2h',
+    minutesAgo: 120,
   },
 ]

@@ -1,15 +1,17 @@
 import { useState } from 'react'
 import { Link } from 'react-router'
 import IconButton from '@/components/IconButton'
+import NotificationDrawer from '@/features/alerts/components/NotificationDrawer'
+import { useAlerts } from '@/features/alerts/hooks/useAlerts'
 import useGreeting from '@/hooks/useGreeting'
 import LotCard from '../components/LotCard'
-import NotificationBanner from '../components/NotificationBanner'
 import OverviewCard from '../components/OverviewCard'
 import { useLots } from '../hooks/useLots'
 
 export default function HomePage() {
   const greeting = useGreeting()
-  const { priorityLots, summary, attentionLot } = useLots()
+  const { priorityLots, summary } = useLots()
+  const { timeline, counts } = useAlerts()
   const [notificationsOpen, setNotificationsOpen] = useState(false)
 
   return (
@@ -22,16 +24,14 @@ export default function HomePage() {
           </div>
           <div className="flex gap-2">
             <IconButton
-              badge={Boolean(attentionLot)}
+              badge={counts.all > 0}
               icon="bell"
               label="Abrir notificações"
-              onClick={() => setNotificationsOpen((open) => !open)}
+              onClick={() => setNotificationsOpen(true)}
             />
             <IconButton icon="user" label="Abrir perfil" to="/perfil" />
           </div>
         </div>
-
-        {notificationsOpen && <NotificationBanner lot={attentionLot} />}
 
         <div className="mt-8">
           <h1 className="text-2xl font-semibold tracking-tight text-ink">{greeting}, João</h1>
@@ -40,6 +40,12 @@ export default function HomePage() {
           </p>
         </div>
       </header>
+
+      <NotificationDrawer
+        notifications={timeline}
+        onClose={() => setNotificationsOpen(false)}
+        open={notificationsOpen}
+      />
 
       <section className="px-page">
         <OverviewCard summary={summary} />

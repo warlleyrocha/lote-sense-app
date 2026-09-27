@@ -4,6 +4,7 @@ import { metricLabel, statusLabel, statusStyles } from '@/features/lots/constant
 import type { Metric } from '@/features/lots/types'
 import { formatMetric, getReferenceState, referenceStateLabel } from '@/features/lots/utils'
 import type { ActiveAlert } from '../types'
+import { formatAlertTime } from '../utils'
 
 const metrics: { metric: Metric; icon: 'thermometer' | 'droplet' }[] = [
   { metric: 'temperature', icon: 'thermometer' },
@@ -32,7 +33,7 @@ export default function AlertCard({ alert }: { alert: ActiveAlert }) {
         </span>
         <span className="flex items-center gap-1 text-xs font-medium text-ink-muted">
           <Icon className="size-3.5" name="history" />
-          {alert.time}
+          {formatAlertTime(alert)}
         </span>
       </div>
 

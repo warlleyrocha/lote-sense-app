@@ -8,7 +8,8 @@ type AlertBase = {
   // Indicadores que saíram (ou voltaram) da faixa de referência.
   metrics: Metric[]
   message: string
-  time: string
+  // Minutos desde a detecção (ativo) ou a normalização (resolvido); a API deve enviar o horário.
+  minutesAgo: number
 }
 
 export type Alert =
@@ -18,5 +19,7 @@ export type Alert =
 export type ActiveAlert = Extract<Alert, { state: 'active' }> & { lot: Lot }
 
 export type ResolvedAlert = Extract<Alert, { state: 'resolved' }> & { lot: Lot }
+
+export type LotAlert = ActiveAlert | ResolvedAlert
 
 export type AlertFilter = 'all' | 'critical' | 'warning' | 'resolved'

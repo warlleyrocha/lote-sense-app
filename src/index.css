@@ -38,11 +38,13 @@
 
   --shadow-card: 0 0.625rem 1.875rem rgba(36, 92, 61, 0.14);
   --shadow-nav: 0 -0.25rem 1.5rem rgba(25, 41, 31, 0.07);
+  --shadow-drawer: -1rem 0 2.5rem rgba(20, 32, 25, 0.18);
   --shadow-sheet: 0 -1rem 2.5rem rgba(20, 32, 25, 0.18);
   --shadow-segment: 0 0.0625rem 0.25rem rgba(20, 32, 25, 0.1);
 
   --spacing-page: 1.25rem;
   --spacing-mobile: 24.375rem;
+  --spacing-drawer: 24rem;
   --spacing-bottom-nav: 7.5rem;
   --spacing-safe: max(1rem, env(safe-area-inset-bottom));
   --spacing-nav-item: 4.25rem;
@@ -71,6 +73,11 @@ body {
   margin: 0;
   min-width: 20rem;
   min-height: 100dvh;
+}
+
+/* Trava a rolagem da página enquanto um modal (ex.: drawer de notificações) está aberto. */
+html:has(dialog:modal) {
+  overflow: hidden;
 }
 
 button:focus-visible,

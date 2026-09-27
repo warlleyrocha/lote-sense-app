@@ -1,6 +1,7 @@
 import { Link } from 'react-router'
 import Icon from '@/components/Icon'
 import type { ResolvedAlert } from '../types'
+import { formatAlertTime } from '../utils'
 
 export default function ResolvedAlertCard({ alert }: { alert: ResolvedAlert }) {
   return (
@@ -15,7 +16,7 @@ export default function ResolvedAlertCard({ alert }: { alert: ResolvedAlert }) {
       <div className="min-w-0 flex-1">
         <p className="text-sm font-semibold text-ink">{alert.lot.name}</p>
         <p className="mt-0.5 text-sm text-ink-muted">{alert.message}</p>
-        <p className="mt-1 text-xs text-ink-faint">{alert.time}</p>
+        <p className="mt-1 text-xs text-ink-faint">{formatAlertTime(alert)}</p>
       </div>
       <Icon className="size-4 shrink-0 text-ink-faint transition-colors group-hover:text-primary" name="chevron" />
     </Link>
