@@ -28,6 +28,9 @@
   --color-overlay: #14201966;
   --color-online: #3a8158;
   --color-primary-hover: #1d4d33;
+  --color-coffee: #3b2418;
+  --color-coffee-pale: #e8d9cc;
+  --color-coffee-line: #6b4a38;
 
   --radius-card: 1rem;
   --radius-inner: 0.75rem;
@@ -37,6 +40,7 @@
   --radius-reference: 0.1875rem;
 
   --shadow-card: 0 0.625rem 1.875rem rgba(36, 92, 61, 0.14);
+  --shadow-coffee: 0 0.625rem 1.875rem rgba(59, 36, 24, 0.22);
   --shadow-nav: 0 -0.25rem 1.5rem rgba(25, 41, 31, 0.07);
   --shadow-drawer: -1rem 0 2.5rem rgba(20, 32, 25, 0.18);
   --shadow-sheet: 0 -1rem 2.5rem rgba(20, 32, 25, 0.18);
