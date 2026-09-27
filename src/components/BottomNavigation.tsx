@@ -18,7 +18,7 @@ export default function BottomNavigation() {
   return (
     <nav
       aria-label="Navegação principal"
-      className="fixed inset-x-0 bottom-0 z-20 mx-auto flex w-full max-w-mobile items-center justify-around border-t border-line bg-surface px-3 pb-safe pt-2 shadow-nav"
+      className="fixed inset-x-0 bottom-0 z-20 flex w-full items-center justify-around border-t border-line bg-surface px-3 pb-safe pt-2 shadow-nav"
     >
       {items.map((item) => {
         const active = item.match(pathname)
