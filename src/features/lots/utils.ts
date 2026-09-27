@@ -21,6 +21,10 @@ const unit: Record<Metric, string> = { temperature: ' °C', humidity: '%' }
 export const formatReferenceValue = (metric: Metric, value: number) =>
   `${referenceNumber.format(value)}${unit[metric]}`
 
+// Rótulos de eixo com casas decimais fixas para a escala ficar alinhada: "10,8%", "11,0%".
+export const formatAxisValue = (metric: Metric, value: number, decimals: number) =>
+  `${value.toLocaleString('pt-BR', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })}${unit[metric]}`
+
 export function formatReference(metric: Metric) {
   const { min, max } = reference[metric]
   if (min === undefined) return `até ${formatReferenceValue(metric, max)}`

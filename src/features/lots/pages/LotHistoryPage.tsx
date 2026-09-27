@@ -89,7 +89,7 @@ export default function LotHistoryPage() {
             </div>
           </div>
 
-          <HistoryChart metric={metric} status={lot.status} />
+          <HistoryChart metric={metric} status={lot.status} value={lot[metric]} />
         </section>
 
         <section>

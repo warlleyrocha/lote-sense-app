@@ -46,7 +46,7 @@
   --spacing-bottom-nav: 7.5rem;
   --spacing-safe: max(1rem, env(safe-area-inset-bottom));
   --spacing-nav-item: 4.25rem;
-  --spacing-chart: 6rem;
+  --spacing-chart: 7rem;
   --spacing-history-chart: 11.25rem;
   --spacing-event-time: 2.75rem;
   --spacing-timeline-dot: 0.40625rem;

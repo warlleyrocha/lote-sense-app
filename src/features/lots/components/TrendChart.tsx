@@ -1,13 +1,9 @@
 import { metricLabel, statusStyles } from '../constants'
+import { mockSeries } from '../data/series'
 import type { LotStatus, Metric } from '../types'
 import { formatMetric, formatReference } from '../utils'
+import MetricChart from './MetricChart'
 import ReferenceHint from './ReferenceHint'
-
-// Séries estáticas do design; trocar por dados reais quando houver API.
-const series: Record<Metric, { points: string; lastY: number }> = {
-  temperature: { points: '14,76 56,73 98,69 140,66 182,58 224,48 266,34 308,19', lastY: 19 },
-  humidity: { points: '14,77 56,75 98,72 140,68 182,61 224,51 266,37 308,20', lastY: 20 },
-}
 
 type TrendChartProps = {
   metric: Metric
@@ -17,7 +13,6 @@ type TrendChartProps = {
 
 export default function TrendChart({ metric, value, status }: TrendChartProps) {
   const styles = statusStyles[status]
-  const { points, lastY } = series[metric]
   const label = metricLabel[metric]
 
   return (
@@ -33,36 +28,22 @@ export default function TrendChart({ metric, value, status }: TrendChartProps) {
         </div>
       </div>
       <div className="mt-4">
-        <svg
-          aria-label={`Gráfico de tendência de ${label.toLowerCase()}`}
-          className="h-chart w-full overflow-visible"
-          role="img"
-          viewBox="0 0 322 96"
-        >
-          <path className="stroke-line" d="M14 20H308M14 49H308M14 78H308" strokeWidth="1" />
-          <path
-            className={styles.referenceStroke}
-            d="M14 55H308"
-            strokeDasharray="4 4"
-            strokeWidth="1.5"
-          />
-          <polyline
-            className={`fill-none ${styles.stroke}`}
-            points={points}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="3"
-          />
-          <circle className={`fill-surface ${styles.stroke}`} cx="308" cy={lastY} r="4.5" strokeWidth="3" />
-        </svg>
-        <div className="mt-1 flex items-center justify-between text-xs text-ink-faint">
-          <span>13h atrás</span>
+        <MetricChart
+          ariaLabel={`Gráfico de tendência de ${label.toLowerCase()}`}
+          className="h-chart"
+          height={112}
+          metric={metric}
+          referenceStyle="lines"
+          status={status}
+          values={mockSeries(metric, value, 8)}
+          yTickCount={3}
+        />
+        <div className="mt-2 flex items-center justify-center text-xs text-ink-faint">
           <span className="flex items-center gap-1.5">
             <span className="inline-block w-4 border-t border-dashed border-warning-border" />
             Referência: {formatReference(metric)}
             <ReferenceHint metric={metric} />
           </span>
-          <span>Agora</span>
         </div>
       </div>
     </div>

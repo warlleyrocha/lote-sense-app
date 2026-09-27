@@ -11,8 +11,7 @@ import {
   formatMetric,
   formatReference,
   getReferenceState,
-  isDeviation,
-  referenceStateLabel,
+  isDeviation
 } from '../utils'
 
 const metrics: { metric: Metric; icon: 'thermometer' | 'droplet' }[] = [
@@ -107,38 +106,6 @@ export default function LotDetailPage() {
                   deviating.every((reading) => reading.state === 'above') ? 'acima das' : 'fora das'
                 } condições de referência.`}
           </p>
-        </section>
-
-        <section>
-          <h2 className="mb-3 text-lg font-semibold text-ink">Condição atual</h2>
-          <div className="grid grid-cols-2 gap-3">
-            {readings.map((reading) => {
-              const within = !isDeviation(reading.state)
-              const tone = within ? statusStyles.healthy : styles
-              return (
-                <article
-                  className={`rounded-card border bg-surface p-4 ${within ? 'border-line' : styles.divider}`}
-                  key={reading.metric}
-                >
-                  <div className={`flex size-9 items-center justify-center rounded-full ${tone.iconBadge}`}>
-                    <Icon className="size-5" name={reading.icon} />
-                  </div>
-                  <p className="mt-4 text-xs font-medium text-ink-muted">{metricLabel[reading.metric]}</p>
-                  <p className="mt-1 text-2xl font-semibold tracking-tight text-ink">
-                    {formatMetric(reading.metric, reading.value)}
-                  </p>
-                  <p
-                    className={`mt-2 flex items-center gap-1 text-xs font-semibold ${
-                      reading.state === 'tolerance' ? statusStyles.warning.text : tone.text
-                    }`}
-                  >
-                    {referenceStateLabel[reading.state]}
-                    {reading.state === 'tolerance' && <ReferenceHint align="end" metric={reading.metric} />}
-                  </p>
-                </article>
-              )
-            })}
-          </div>
         </section>
 
         <section>
