@@ -5,6 +5,7 @@ import SegmentedControl from '@/components/SegmentedControl'
 import EventTimeline from '../components/EventTimeline'
 import HistoryChart from '../components/HistoryChart'
 import LotNotFound from '../components/LotNotFound'
+import ReferenceHint from '../components/ReferenceHint'
 import { metricLabel, statusStyles } from '../constants'
 import { useLot } from '../hooks/useLot'
 import type { Metric } from '../types'
@@ -80,7 +81,10 @@ export default function LotHistoryPage() {
               </p>
             </div>
             <div className="rounded-inner bg-primary-soft px-3 py-2 text-right">
-              <p className="text-xs font-medium text-primary">Faixa de referência</p>
+              <p className="flex items-center justify-end gap-1 text-xs font-medium text-primary">
+                Faixa de referência
+                <ReferenceHint align="end" metric={metric} />
+              </p>
               <p className="mt-0.5 text-sm font-semibold text-primary">{formatReference(metric)}</p>
             </div>
           </div>

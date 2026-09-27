@@ -11,10 +11,13 @@ export const metricLabel: Record<Metric, string> = {
   humidity: 'Umidade',
 }
 
-// Faixas de referência para café em armazenamento.
-export const reference: Record<Metric, { min: number; max: number }> = {
-  temperature: { min: 18, max: 22 },
-  humidity: { min: 11, max: 13 },
+// Condições de referência para café em armazenamento. `min`/`max` delimitam a faixa ideal;
+// `limit` é a tolerância: ainda aceita, mas já acima do recomendado.
+export type Reference = { min?: number; max: number; limit?: number }
+
+export const reference: Record<Metric, Reference> = {
+  temperature: { max: 25 },
+  humidity: { min: 10.8, max: 11.2, limit: 12.5 },
 }
 
 // Classes completas (não montadas por interpolação) para o Tailwind detectá-las.

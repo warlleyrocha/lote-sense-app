@@ -1,10 +1,12 @@
 import Icon from "@/components/Icon";
+import ReferenceHint from "@/features/lots/components/ReferenceHint";
 import { metricLabel } from "@/features/lots/constants";
 import type { Lot, Metric } from "@/features/lots/types";
 import {
   formatMetric,
   formatReference,
   getReferenceState,
+  isDeviation,
   referenceStateLabel,
 } from "@/features/lots/utils";
 import type { Reliability, Sensor } from "../types";
@@ -56,11 +58,15 @@ export default function CurrentReadings({
                 {formatMetric(metric, value)}
               </p>
               <p className="mt-2 text-xs text-ink-muted">
-                {state === "within"
-                  ? referenceStateLabel[state]
-                  : `${referenceStateLabel[state]} do café`}
-                <span className="block text-ink-faint">
+                {isDeviation(state)
+                  ? `${referenceStateLabel[state]} do café`
+                  : referenceStateLabel[state]}
+                <span className="flex items-center gap-1 text-ink-faint">
                   Ref.: {formatReference(metric)}
+                  <ReferenceHint
+                    align={metric === "temperature" ? "start" : "end"}
+                    metric={metric}
+                  />
                 </span>
               </p>
             </article>

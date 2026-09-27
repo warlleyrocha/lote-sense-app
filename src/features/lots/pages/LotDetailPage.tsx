@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router'
 import Icon from '@/components/Icon'
 import ScreenHeader from '@/components/ScreenHeader'
 import LotNotFound from '../components/LotNotFound'
+import ReferenceHint from '../components/ReferenceHint'
 import TrendChart from '../components/TrendChart'
 import { metricLabel, statusLabel, statusStyles } from '../constants'
 import { useLot } from '../hooks/useLot'
@@ -10,6 +11,7 @@ import {
   formatMetric,
   formatReference,
   getReferenceState,
+  isDeviation,
   referenceStateLabel,
 } from '../utils'
 
@@ -30,7 +32,7 @@ export default function LotDetailPage() {
     const value = lot[metric]
     return { metric, icon, value, state: getReferenceState(metric, value) }
   })
-  const deviating = readings.filter((reading) => reading.state !== 'within')
+  const deviating = readings.filter((reading) => isDeviation(reading.state))
   const deviationText = deviating
     .map((reading, index) => {
       const label = metricLabel[reading.metric]
@@ -91,8 +93,9 @@ export default function LotDetailPage() {
                 <p className="mt-1 text-xl font-semibold text-ink">
                   {formatMetric(reading.metric, reading.value)}
                 </p>
-                <p className="mt-1 text-xs text-ink-faint">
+                <p className="mt-1 flex items-center gap-1 text-xs text-ink-faint">
                   Referência: {formatReference(reading.metric)}
+                  <ReferenceHint align={index > 0 ? 'end' : 'start'} metric={reading.metric} />
                 </p>
               </div>
             ))}
@@ -110,7 +113,7 @@ export default function LotDetailPage() {
           <h2 className="mb-3 text-lg font-semibold text-ink">Condição atual</h2>
           <div className="grid grid-cols-2 gap-3">
             {readings.map((reading) => {
-              const within = reading.state === 'within'
+              const within = !isDeviation(reading.state)
               const tone = within ? statusStyles.healthy : styles
               return (
                 <article
@@ -124,8 +127,13 @@ export default function LotDetailPage() {
                   <p className="mt-1 text-2xl font-semibold tracking-tight text-ink">
                     {formatMetric(reading.metric, reading.value)}
                   </p>
-                  <p className={`mt-2 text-xs font-semibold ${tone.text}`}>
+                  <p
+                    className={`mt-2 flex items-center gap-1 text-xs font-semibold ${
+                      reading.state === 'tolerance' ? statusStyles.warning.text : tone.text
+                    }`}
+                  >
                     {referenceStateLabel[reading.state]}
+                    {reading.state === 'tolerance' && <ReferenceHint align="end" metric={reading.metric} />}
                   </p>
                 </article>
               )

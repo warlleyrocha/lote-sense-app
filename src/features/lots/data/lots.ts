@@ -1,19 +1,33 @@
 import type { Lot, LotEvent, LotsSummary } from '../types'
-import { formatHumidity, formatTemperature } from '../utils'
+import {
+  formatHumidity,
+  formatTemperature,
+  getReferenceState,
+  isDeviation,
+  referenceStateLabel,
+} from '../utils'
 
 const CROP = 'Café Arábica — Catuaí Vermelho'
 const VARIETY = 'Catuaí Vermelho'
 const STAGE = 'Armazenamento'
 
-// Detalhes ainda sem histórico real: um único evento com a leitura atual.
-const latestReading = (time: string, lines: string[], healthy: boolean): LotEvent[] => [
-  {
+// Evento de leitura com status derivado da referência (temperatura até 25 °C;
+// umidade ideal 10,8–11,2%, tolerância até 12,5%).
+const reading = (time: string, temperature: number, humidity: number): LotEvent => {
+  const states = [
+    getReferenceState('temperature', temperature),
+    getReferenceState('humidity', humidity),
+  ]
+  const deviating = states.some(isDeviation)
+  return {
     time,
-    lines,
-    status: healthy ? 'Dentro da referência' : 'Acima da referência',
-    tone: healthy ? 'healthy' : 'warning',
-  },
-]
+    lines: [`Temperatura: ${formatTemperature(temperature)}`, `Umidade: ${formatHumidity(humidity)}`],
+    status: deviating
+      ? referenceStateLabel.above
+      : referenceStateLabel[states.includes('tolerance') ? 'tolerance' : 'within'],
+    tone: deviating ? 'warning' : 'healthy',
+  }
+}
 
 // Lotes dentro da referência: só variam sacas, leituras e o horário da última atualização.
 const healthyLot = (
@@ -37,14 +51,11 @@ const healthyLot = (
   message: 'Dentro do esperado',
   updated: `Atualizado há ${minutesAgo} min`,
   peak: {
-    temperature: Math.round((temperature + 1.2) * 10) / 10,
-    humidity: Math.round((humidity + 0.3) * 10) / 10,
+    temperature: Math.round((temperature + 0.3) * 10) / 10,
+    humidity: Math.round((humidity + 0.1) * 10) / 10,
   },
-  events: latestReading(
-    '13:20',
-    [`Temperatura: ${formatTemperature(temperature)}`, `Umidade: ${formatHumidity(humidity)}`],
-    true,
-  ),
+  // Detalhes ainda sem histórico real: um único evento com a leitura atual.
+  events: [reading('13:20', temperature, humidity)],
 })
 
 export const lots: Lot[] = [
@@ -64,24 +75,14 @@ export const lots: Lot[] = [
     updated: 'Atualizado há 1 min',
     peak: { temperature: 27.1, humidity: 16.0 },
     events: [
-      {
-        time: '13:04',
-        lines: ['Temperatura: 27,1 °C', 'Umidade: 16,0%'],
-        status: 'Acima da referência',
-        tone: 'warning',
-      },
+      reading('13:04', 27.1, 16.0),
       {
         time: '11:42',
-        lines: ['Umidade atingiu 14,1%'],
+        lines: ['Umidade atingiu 12,8%'],
         status: 'Início do desvio',
         tone: 'warning',
       },
-      {
-        time: '08:15',
-        lines: ['Temperatura: 21,8 °C', 'Umidade: 12,4%'],
-        status: 'Dentro da referência',
-        tone: 'healthy',
-      },
+      reading('08:15', 24.6, 11.1),
       {
         time: '25/09 — 17:30',
         lines: ['Lote transferido para armazenamento'],
@@ -98,13 +99,13 @@ export const lots: Lot[] = [
     variety: VARIETY,
     stage: STAGE,
     device: { code: 'LoteSense-003', online: true },
-    temperature: 24.7,
-    humidity: 13.8,
+    temperature: 25.8,
+    humidity: 13.1,
     status: 'warning',
     message: 'Temperatura e umidade em elevação',
     updated: 'Atualizado há 2 min',
-    peak: { temperature: 24.7, humidity: 13.8 },
-    events: latestReading('13:20', ['Temperatura: 24,7 °C', 'Umidade: 13,8%'], false),
+    peak: { temperature: 25.8, humidity: 13.1 },
+    events: [reading('13:20', 25.8, 13.1)],
   },
   {
     id: '11',
@@ -115,13 +116,13 @@ export const lots: Lot[] = [
     variety: VARIETY,
     stage: STAGE,
     device: { code: 'LoteSense-011', online: true },
-    temperature: 23.9,
-    humidity: 13.4,
+    temperature: 24.3,
+    humidity: 12.9,
     status: 'warning',
     message: 'Umidade acima da referência',
     updated: 'Atualizado há 3 min',
-    peak: { temperature: 23.9, humidity: 13.4 },
-    events: latestReading('13:19', ['Temperatura: 23,9 °C', 'Umidade: 13,4%'], false),
+    peak: { temperature: 24.3, humidity: 12.9 },
+    events: [reading('13:19', 24.3, 12.9)],
   },
   {
     id: '01',
@@ -132,13 +133,13 @@ export const lots: Lot[] = [
     variety: VARIETY,
     stage: STAGE,
     device: { code: 'LoteSense-001', online: true },
-    temperature: 20.4,
-    humidity: 12.1,
+    temperature: 24.2,
+    humidity: 11.0,
     status: 'healthy',
     message: 'Dentro do esperado',
     updated: 'Atualizado agora',
-    peak: { temperature: 21.0, humidity: 12.3 },
-    events: latestReading('13:22', ['Temperatura: 20,4 °C', 'Umidade: 12,1%'], true),
+    peak: { temperature: 24.6, humidity: 11.1 },
+    events: [reading('13:22', 24.2, 11.0)],
   },
   {
     id: '02',
@@ -149,21 +150,22 @@ export const lots: Lot[] = [
     variety: VARIETY,
     stage: STAGE,
     device: { code: 'LoteSense-002', online: true },
-    temperature: 21.4,
-    humidity: 12.3,
+    // Na tolerância: acima do ideal (11,2%), mas abaixo do limite (12,5%).
+    temperature: 24.5,
+    humidity: 11.9,
     status: 'healthy',
     message: 'Dentro do esperado',
     updated: 'Atualizado há 4 min',
-    peak: { temperature: 22.9, humidity: 12.5 },
-    events: latestReading('13:18', ['Temperatura: 21,4 °C', 'Umidade: 12,3%'], true),
+    peak: { temperature: 24.9, humidity: 12.1 },
+    events: [reading('13:18', 24.5, 11.9)],
   },
-  healthyLot('04', 4, 20.8, 12.0, 2),
-  healthyLot('05', 5, 21.1, 12.2, 3),
-  healthyLot('06', 3, 20.2, 11.9, 1),
-  healthyLot('07', 4, 21.6, 12.4, 5),
-  healthyLot('09', 5, 20.5, 12.1, 2),
-  healthyLot('10', 3, 21.0, 12.3, 4),
-  healthyLot('12', 4, 20.9, 12.2, 1),
+  healthyLot('04', 4, 24.0, 11.1, 2),
+  healthyLot('05', 5, 24.4, 10.9, 3),
+  healthyLot('06', 3, 23.6, 11.0, 1),
+  healthyLot('07', 4, 24.7, 12.2, 5),
+  healthyLot('09', 5, 23.9, 10.8, 2),
+  healthyLot('10', 3, 24.1, 11.2, 4),
+  healthyLot('12', 4, 23.8, 11.0, 1),
 ]
 
 // A lista segue a ordem de prioridade (críticos, atenção, dentro do esperado); o resumo cobre todos.

@@ -1,6 +1,7 @@
-import { metricLabel, reference, statusStyles } from '../constants'
+import { metricLabel, statusStyles } from '../constants'
 import type { LotStatus, Metric } from '../types'
-import { formatMetric } from '../utils'
+import { formatMetric, formatReference } from '../utils'
+import ReferenceHint from './ReferenceHint'
 
 // Séries estáticas do design; trocar por dados reais quando houver API.
 const series: Record<Metric, { points: string; lastY: number }> = {
@@ -18,7 +19,6 @@ export default function TrendChart({ metric, value, status }: TrendChartProps) {
   const styles = statusStyles[status]
   const { points, lastY } = series[metric]
   const label = metricLabel[metric]
-  const referenceMax = formatMetric(metric, reference[metric].max)
 
   return (
     <div className="rounded-card border border-line bg-surface p-4">
@@ -59,7 +59,8 @@ export default function TrendChart({ metric, value, status }: TrendChartProps) {
           <span>13h atrás</span>
           <span className="flex items-center gap-1.5">
             <span className="inline-block w-4 border-t border-dashed border-warning-border" />
-            Referência: {referenceMax}
+            Referência: {formatReference(metric)}
+            <ReferenceHint metric={metric} />
           </span>
           <span>Agora</span>
         </div>

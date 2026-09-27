@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import Icon from "@/components/Icon";
 import { metricLabel } from "@/features/lots/constants";
 import type { Lot, Metric } from "@/features/lots/types";
-import { getReferenceState } from "@/features/lots/utils";
+import { getReferenceState, isDeviation } from "@/features/lots/utils";
 import { reliabilityContent } from "../constants";
 import type { Reliability } from "../types";
 
@@ -46,7 +46,7 @@ export default function DiagnosisCard({
 }) {
   const sensorContent = reliabilityContent[reliability];
   const deviating = metrics.filter(
-    (metric) => getReferenceState(metric, lot[metric]) !== "within",
+    (metric) => isDeviation(getReferenceState(metric, lot[metric])),
   );
   const coffeeOk = deviating.length === 0;
   const sensorOk = reliability === "reliable";
