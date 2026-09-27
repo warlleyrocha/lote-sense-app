@@ -14,6 +14,12 @@ export type IconName =
   | 'history'
   | 'signal'
   | 'battery'
+  | 'map-pin'
+  | 'layers'
+  | 'lock'
+  | 'log-out'
+  | 'info'
+  | 'clock'
 
 type IconProps = {
   name: IconName
@@ -73,6 +79,43 @@ export default function Icon({ name, className = 'size-5' }: IconProps) {
       <>
         <rect height="10" rx="2" width="17" x="2" y="7" />
         <path d="M22 11v2M6 10v4" />
+      </>
+    ),
+    "map-pin": (
+      <>
+        <path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z" />
+        <circle cx="12" cy="10" r="2.5" />
+      </>
+    ),
+    layers: (
+      <>
+        <path d="m12 3 9 5-9 5-9-5 9-5Z" />
+        <path d="m3 13 9 5 9-5" />
+      </>
+    ),
+    lock: (
+      <>
+        <rect height="10" rx="2" width="16" x="4" y="11" />
+        <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+      </>
+    ),
+    "log-out": (
+      <>
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+        <path d="M16 17l5-5-5-5" />
+        <path d="M21 12H9" />
+      </>
+    ),
+    info: (
+      <>
+        <circle cx="12" cy="12" r="9" />
+        <path d="M12 11v5M12 8h.01" />
+      </>
+    ),
+    clock: (
+      <>
+        <circle cx="12" cy="12" r="9" />
+        <path d="M12 7v5l3.5 2" />
       </>
     ),
   }

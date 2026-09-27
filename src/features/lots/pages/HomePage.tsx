@@ -42,7 +42,7 @@ export default function HomePage() {
         {notificationsOpen && <NotificationBanner lot={attentionLot} />}
 
         <div className="mt-8">
-          <h1 className="text-2xl font-semibold tracking-tight text-ink">{greeting}, produtor</h1>
+          <h1 className="text-2xl font-semibold tracking-tight text-ink">{greeting}, João</h1>
           <p className="mt-1.5 text-base leading-relaxed text-ink-muted">
             Confira a integridade dos seus nano-lotes.
           </p>

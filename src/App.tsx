@@ -5,8 +5,8 @@ import HomePage from '@/features/lots/pages/HomePage'
 import LotDetailPage from '@/features/lots/pages/LotDetailPage'
 import LotHistoryPage from '@/features/lots/pages/LotHistoryPage'
 import SensorPage from '@/features/sensor/pages/SensorPage'
+import ProfilePage from '@/features/profile/pages/ProfilePage'
 import LandingPage from '@/pages/LandingPage'
-import PlaceholderPage from '@/pages/PlaceholderPage'
 
 export default function App() {
   return (
@@ -17,7 +17,7 @@ export default function App() {
         <Route element={<LotDetailPage />} path="/lotes/:id" />
         <Route element={<SensorPage />} path="/lotes/:id/sensor" />
         <Route element={<AlertsPage />} path="/alertas" />
-        <Route element={<PlaceholderPage title="Perfil" />} path="/perfil" />
+        <Route element={<ProfilePage />} path="/perfil" />
       </Route>
       <Route element={<AppShell />}>
         <Route element={<LotHistoryPage />} path="/lotes/:id/historico" />
