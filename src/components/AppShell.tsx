@@ -1,7 +1,9 @@
-import { Outlet } from 'react-router'
+import { Outlet, useLocation } from 'react-router'
 import BottomNavigation from './BottomNavigation'
 
 export default function AppShell({ withNavigation = false }: { withNavigation?: boolean }) {
+  const { pathname } = useLocation()
+
   return (
     <div className="min-h-dvh bg-canvas text-ink">
       <main
@@ -9,7 +11,10 @@ export default function AppShell({ withNavigation = false }: { withNavigation?: 
           withNavigation ? 'pb-bottom-nav' : 'pb-8'
         }`}
       >
-        <Outlet />
+        {/* A key por rota reinicia a animação de entrada a cada troca de tela. */}
+        <div className="animate-page-enter motion-reduce:animate-none" key={pathname}>
+          <Outlet />
+        </div>
       </main>
       {withNavigation && <BottomNavigation />}
     </div>

@@ -18,20 +18,26 @@ const plural = (count: number, singular: string, pluralForm: string) =>
 // <dialog> modal nativo: foco preso no painel, Esc fecha e o foco volta ao sino.
 export default function NotificationDrawer({ open, onClose, notifications }: NotificationDrawerProps) {
   const ref = useRef<HTMLDialogElement>(null)
+  const titleRef = useRef<HTMLHeadingElement>(null)
   const titleId = useId()
   const activeCount = notifications.filter((alert) => alert.state === 'active').length
 
   useEffect(() => {
     const dialog = ref.current
     if (!dialog) return
-    if (open && !dialog.open) dialog.showModal()
+    if (open && !dialog.open) {
+      dialog.showModal()
+      // showModal() focaria o botão de fechar, que abriria já destacado; o título
+      // recebe o foco no lugar dele e é anunciado por leitores de tela.
+      titleRef.current?.focus()
+    }
     if (!open && dialog.open) dialog.close()
   }, [open])
 
   return (
     <dialog
       aria-labelledby={titleId}
-      className="fixed inset-y-0 left-auto right-0 m-0 h-dvh max-h-none w-drawer max-w-11/12 translate-x-full border-0 bg-canvas p-0 text-ink shadow-drawer transition-all transition-discrete duration-300 ease-out backdrop:bg-transparent backdrop:transition-all backdrop:transition-discrete backdrop:duration-300 open:translate-x-0 open:backdrop:bg-overlay starting:open:translate-x-full starting:open:backdrop:bg-transparent motion-reduce:transition-none motion-reduce:backdrop:transition-none"
+      className="fixed inset-y-0 left-auto right-0 m-0 h-dvh max-h-none w-drawer max-w-11/12 translate-x-full border-0 bg-canvas p-0 text-ink shadow-drawer transition-[translate,overlay,display] transition-discrete duration-300 ease-out backdrop:bg-transparent backdrop:transition-[background-color,overlay,display] backdrop:transition-discrete backdrop:duration-300 backdrop:ease-out open:translate-x-0 open:backdrop:bg-overlay starting:open:translate-x-full starting:open:backdrop:bg-transparent motion-reduce:transition-none motion-reduce:backdrop:transition-none"
       // Clique no fundo escurecido chega ao próprio <dialog>; o conteúdo ocupa todo o painel.
       onClick={(event) => {
         if (event.target === event.currentTarget) onClose()
@@ -42,7 +48,12 @@ export default function NotificationDrawer({ open, onClose, notifications }: Not
       <div className="flex h-full flex-col">
         <header className="flex items-center justify-between gap-3 border-b border-line bg-surface px-page py-4">
           <div>
-            <h2 className="text-lg font-semibold text-ink" id={titleId}>
+            <h2
+              className="text-lg font-semibold text-ink outline-none"
+              id={titleId}
+              ref={titleRef}
+              tabIndex={-1}
+            >
               Notificações
             </h2>
             <p className="text-xs text-ink-muted">

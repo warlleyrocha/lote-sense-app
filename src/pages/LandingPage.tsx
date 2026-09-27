@@ -2,7 +2,7 @@ import { Link } from 'react-router'
 
 export default function LandingPage() {
   return (
-    <div className="flex min-h-dvh flex-col items-center justify-center gap-6 bg-canvas px-page text-center">
+    <div className="flex min-h-dvh animate-page-enter flex-col items-center justify-center gap-6 bg-canvas px-page text-center motion-reduce:animate-none">
       <h1 className="max-w-2xl text-xl font-semibold tracking-tight text-balance text-ink sm:text-3xl lg:text-4xl">
         Pelo visto
         <br />
