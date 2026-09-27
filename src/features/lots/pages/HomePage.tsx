@@ -16,17 +16,8 @@ export default function HomePage() {
       <header className="px-page pb-5 pt-5">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="flex size-10 items-center justify-center rounded-logo bg-primary text-surface">
-              <svg aria-hidden="true" className="size-6" fill="none" viewBox="0 0 28 28">
-                <path
-                  d="M14 4C9.5 4 6 8 6 13.3 6 19 10 23 14 24c4-1 8-5 8-10.7C22 8 18.5 4 14 4Z"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                />
-                <path d="M9 18c2-1 4-3.4 6-7 1 4 2.8 6.5 4.5 7.5" stroke="currentColor" strokeWidth="2" />
-              </svg>
-            </div>
-            <span className="text-xl font-bold tracking-brand text-primary">LoteSense</span>
+            <img alt="" aria-hidden="true" className="size-10 rounded-logo object-cover" src="/logo.png" />
+            <img alt="LoteSense" className="h-6 w-auto" src="/lote-sense-title.png" />
           </div>
           <div className="flex gap-2">
             <IconButton

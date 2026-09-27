@@ -9,9 +9,9 @@ type ReferenceHintProps = {
 }
 
 function hintText(metric: Metric) {
-  const { max, limit } = reference[metric]
-  if (metric === 'temperature') {
-    return `Ideal: ${formatReference(metric)}. Acima de ${formatReferenceValue(metric, max)} o café respira mais e tende a perder qualidade no armazenamento.`
+  const { limit } = reference[metric]
+  if (metric === 'temperature' && limit !== undefined) {
+    return `Faixa estável: ${formatReference(metric)}. Acima de ${formatReferenceValue(metric, limit)} o café respira mais e tende a perder qualidade no armazenamento.`
   }
   const tolerance =
     limit === undefined

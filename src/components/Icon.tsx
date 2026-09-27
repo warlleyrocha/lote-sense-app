@@ -64,8 +64,8 @@ export default function Icon({ name, className = 'size-5' }: IconProps) {
     close: <path d="m6 6 12 12M18 6 6 18" />,
     "arrow-left": (
       <>
-        <path d="m15 18-6-6 6-6" />
-        <path d="M9 12h11" />
+        <path d="m11 18-6-6 6-6" />
+        <path d="M5 12h14" />
       </>
     ),
     history: (

@@ -16,7 +16,7 @@ export const metricLabel: Record<Metric, string> = {
 export type Reference = { min?: number; max: number; limit?: number }
 
 export const reference: Record<Metric, Reference> = {
-  temperature: { max: 25 },
+  temperature: { min: 18, max: 22, limit: 25 },
   humidity: { min: 10.8, max: 11.2, limit: 12.5 },
 }
 
