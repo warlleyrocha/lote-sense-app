@@ -12,7 +12,7 @@ export default function SensorInfo({
   const operational = sensor.online && sensor.operational;
   const rows = [
     { label: "ID", value: sensor.id },
-    { label: "Nano-lote", value: lot.id },
+    { label: "Lote", value: lot.id },
     { label: "Instalação", value: sensor.installedAt },
     { label: "Monitoramento", value: lot.stage },
   ];

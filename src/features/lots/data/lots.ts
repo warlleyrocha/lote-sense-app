@@ -38,7 +38,7 @@ const healthyLot = (
   minutesAgo: number,
 ): Lot => ({
   id,
-  name: `Nano Lote ${id}`,
+  name: `Lote ${id}`,
   bags,
   kg: bags * 60,
   crop: CROP,
@@ -61,7 +61,7 @@ const healthyLot = (
 export const lots: Lot[] = [
   {
     id: '08',
-    name: 'Nano Lote 08',
+    name: 'Lote 08',
     bags: 4,
     kg: 240,
     crop: CROP,
@@ -92,7 +92,7 @@ export const lots: Lot[] = [
   },
   {
     id: '03',
-    name: 'Nano Lote 03',
+    name: 'Lote 03',
     bags: 3,
     kg: 180,
     crop: CROP,
@@ -109,7 +109,7 @@ export const lots: Lot[] = [
   },
   {
     id: '11',
-    name: 'Nano Lote 11',
+    name: 'Lote 11',
     bags: 5,
     kg: 300,
     crop: CROP,
@@ -126,7 +126,7 @@ export const lots: Lot[] = [
   },
   {
     id: '01',
-    name: 'Nano Lote 01',
+    name: 'Lote 01',
     bags: 4,
     kg: 240,
     crop: CROP,
@@ -143,7 +143,7 @@ export const lots: Lot[] = [
   },
   {
     id: '02',
-    name: 'Nano Lote 02',
+    name: 'Lote 02',
     bags: 3,
     kg: 180,
     crop: CROP,

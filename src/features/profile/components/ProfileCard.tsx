@@ -29,7 +29,7 @@ export default function ProfileCard({ producer, totalLots, totalBags }: ProfileC
       <div className="mt-5 grid grid-cols-2 divide-x divide-primary-line">
         <div className="pr-3">
           <p className="text-xl font-semibold">{totalLots}</p>
-          <p className="mt-1 text-xs leading-tight text-primary-pale">Nano-lotes monitorados</p>
+          <p className="mt-1 text-xs leading-tight text-primary-pale">Lotes monitorados</p>
         </div>
         <div className="pl-3">
           <p className="text-xl font-semibold">{totalBags}</p>

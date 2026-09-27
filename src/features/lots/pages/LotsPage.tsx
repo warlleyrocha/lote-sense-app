@@ -26,12 +26,12 @@ export default function LotsPage() {
       <ScreenHeader
         backLabel="Voltar para a Home"
         backTo="/inicio"
-        subtitle={`${summary.total} nano-lotes monitorados`}
-        title="Nano-lotes"
+        subtitle={`${summary.total} lotes monitorados`}
+        title="Lotes"
       />
 
       <section className="px-page pt-5">
-        <SegmentedControl label="Filtrar nano-lotes" onChange={setFilter} options={filters} value={filter} />
+        <SegmentedControl label="Filtrar lotes" onChange={setFilter} options={filters} value={filter} />
       </section>
 
       <section className="mt-6 px-page">
@@ -46,7 +46,7 @@ export default function LotsPage() {
           </div>
         ) : (
           <p className="rounded-card border border-line bg-surface p-4 text-sm text-ink-muted">
-            Nenhum nano-lote nesta categoria.
+            Nenhum lote nesta categoria.
           </p>
         )}
       </section>

@@ -8,7 +8,7 @@ export function useProfile() {
 
   const operation = [
     { icon: 'map-pin', label: 'Propriedade', value: producer.property },
-    { icon: 'layers', label: 'Nano-lotes', value: `${lotsSummary.total} lotes cadastrados` },
+    { icon: 'layers', label: 'Lotes', value: `${lotsSummary.total} lotes cadastrados` },
     { icon: 'signal', label: 'Sensores', value: `${activeSensors} sensores ativos` },
     { icon: 'history', label: 'Etapas monitoradas', value: stage },
   ] as const

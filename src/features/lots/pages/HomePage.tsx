@@ -36,7 +36,7 @@ export default function HomePage() {
         <div className="mt-8">
           <h1 className="text-2xl font-semibold tracking-tight text-ink">{greeting}, João</h1>
           <p className="mt-1.5 text-base leading-relaxed text-ink-muted">
-            Confira a integridade dos seus nano-lotes.
+            Confira a integridade dos seus lotes.
           </p>
         </div>
       </header>
@@ -54,7 +54,7 @@ export default function HomePage() {
       <section className="mt-7 px-page">
         <div className="mb-3 flex items-end justify-between">
           <div>
-            <h2 className="text-lg font-semibold text-ink">Nano-lotes</h2>
+            <h2 className="text-lg font-semibold text-ink">Lotes</h2>
             <p className="mt-0.5 text-sm text-ink-muted">Prioridade de atenção</p>
           </div>
           <Link className="text-xs font-semibold text-primary" to="/lotes">
