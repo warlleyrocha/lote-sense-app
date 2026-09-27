@@ -35,7 +35,7 @@ export const statusStyles: Record<
   healthy: {
     text: 'text-primary',
     badge: 'bg-success-soft text-success',
-    card: 'border-line',
+    card: 'border-line bg-surface',
     divider: 'border-line',
     iconBadge: 'bg-primary-soft text-primary',
     stroke: 'stroke-primary',
