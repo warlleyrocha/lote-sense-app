@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router'
 import IconButton from '@/components/IconButton'
 import useGreeting from '@/hooks/useGreeting'
 import LotCard from '../components/LotCard'
@@ -50,7 +51,9 @@ export default function HomePage() {
             <h2 className="text-lg font-semibold text-ink">Nano-lotes</h2>
             <p className="mt-0.5 text-sm text-ink-muted">Prioridade de atenção</p>
           </div>
-          <span className="text-xs font-semibold text-primary">Ver todos ({summary.total})</span>
+          <Link className="text-xs font-semibold text-primary" to="/lotes">
+            Ver todos ({summary.total})
+          </Link>
         </div>
         <div className="space-y-3">
           {priorityLots.map((lot) => (
